@@ -9,6 +9,8 @@ EJERCICIO 1:
 
 #include <iostream>
 
+using namespace std;
+
 int main() {
   int vector[] = {1,2,3,4,5,6,7};
   int *vector_start, *vector_finish;
@@ -23,7 +25,8 @@ int main() {
     vector_start++;
     vector_finish--;
   }
-}
+  return 0;
+};
 
 // Hay que tener en cuenta que cuando se hace uso directamente de * en los punteros se accede al contenido al que apunta este.
 // en cambio si hacemos uso de & estamos accediendo a la dirección de memoria que apunta dicho puntero.
