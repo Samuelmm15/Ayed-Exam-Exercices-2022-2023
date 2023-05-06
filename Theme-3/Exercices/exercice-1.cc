@@ -35,13 +35,14 @@ int main() {
   std::cout << "Ya termino de introdcir elementos en la lista de números, comenzamos con la operación..." << std::endl;
 
   sll_node_t<int>* head = number_list.get_head();
-  sll_node_t<int>* list_element = head;
+  sll_node_t<int>* list_element;
   int counter = 0;
   while (head != NULL) {
+    // Necesario para poder coger el penultimo valor de la lista y poder borrar su siguiente valor que es el ultimo valor de la lista introducida por el usuario
+    if (counter == 2)
+      list_element = head;
     head = head->get_next();
-    // if (counter == 1) 
-    //   list_element = list_element->get_next();
-    // counter = 1;
+    counter++;
   }
   std::cout << "La lista antes de eliminar el último elemento es: " << std::endl;
   number_list.write();
@@ -50,6 +51,6 @@ int main() {
   std::cout << "La lista después de eliminar el último elemento es: " << std::endl;
   number_list.write();
   std::cout << std::endl;
-  // std::cout << "El último elemento de la lista es: " << list_element->get_data() << std::endl;
+  std::cout << "El último elemento de la lista es: " << list_element->get_data() << std::endl;
   return 0;
 }
