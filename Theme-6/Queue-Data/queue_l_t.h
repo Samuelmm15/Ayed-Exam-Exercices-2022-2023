@@ -17,6 +17,11 @@
 #include <iostream>
 #include <cassert>
 #include <vector>
+/**
+ * NOTA: Hay que destacar que para poder hacer uso de pair en c++, es necesario el empleo de
+ * la libreria utility que nos permite hacer uso de `std::pair`.
+*/
+#include <utility>
 
 #include "dll_t.h"
 
@@ -41,7 +46,14 @@ template <class T> class queue_l_t {
   const T& back(void) const;
 
   // Implementacion de los distintos ejercicios soliciatados para el tema 6
+  // Exercice-1
   void inverse_queue_elements(void);
+  // Exercice-2
+  pair<queue_l_t<T>, queue_l_t<T>> divide_into_two_queues(queue_l_t<T> pair_queue, queue_l_t<T> unpair_queue);
+  // Exercice-3
+  void merge_two_queues(queue_l_t<T> first_queue, queue_l_t<T> second_queue);
+  // Exercice-4
+  void delete_duplicated_elements();
 
   // E/S
   std::ostream& write(std::ostream& os = std::cout) const;
@@ -123,6 +135,95 @@ void queue_l_t<T>::inverse_queue_elements(void) {
     push(node_vector[i]);
   }
 };
+
+/**
+ * @brief Implementacion del segundo ejercicio solicitado, el cual solicita que a partir del objeto que
+ * ha sido creado, cuando se haga uso de este metodo, se produzca la creacion de dos colas nuevas las
+ * cuales, la primera de ella tiene los elementos que se encuentran en las posiciones pares de la cola
+ * , mientras que la segunda de estas colas contiene los elementos que se encuentran en las posiciones
+ * impares de esta, cabe destacar que se puede producir que la cola original que fue introducida
+ * por el usuario, puede quedar vacia.
+ * 
+ * Para la implementacion de esto anterior, vamos a hacer uso de dos atributos para el metodo que permita
+ * la creacion de dos colas distitnas que cumplan con la operacion.
+ * 
+ * NOTA: Hay que tener en cuenta que para poder devolver multiples valores en metodos en c++ se puede
+ * hacer uso de los pares que nos dejan devolver multiples valores, para este caso las dos lista que 
+ * tenemos implementadas.
+ * 
+ */
+template<class T>
+pair<queue_l_t<T>, queue_l_t<T>> queue_l_t<T>::divide_into_two_queues(queue_l_t<T> pair_queue, queue_l_t<T> unpair_queue) {
+  int counter = 0;
+  while (!empty()) {
+    if ((counter % 2) == 0) {
+      pair_queue.push(front());
+      pop();
+    } else if ((counter % 2) != 0) {
+      unpair_queue.push(front());
+      pop();
+    }
+    counter++;
+  }
+  pair<queue_l_t<T>, queue_l_t<T>> final_result;
+  final_result.first = pair_queue;
+  final_result.second = unpair_queue;
+  return final_result;
+};
+
+/**
+ * @brief Implementacion del tercer ejercicio, este solicita que a partir de dos colas que son introducidas
+ * como parametros del metodo generar como atributo de la clase la cola resultante que posee la cola
+ * que se trata la union de las otras dos colas, de manera que se toman como valores los valores de ambas
+ * colas de manera alterna.
+ * 
+ */
+template <class T>
+void queue_l_t<T>::merge_two_queues(queue_l_t<T> first_queue, queue_l_t<T> second_queue) {
+  if (first_queue.size() == second_queue.size()) { /// First == Second
+    while (!first_queue.empty()) {
+      push(first_queue.front());
+      first_queue.pop();
+      push(second_queue.front());
+      second_queue.pop();
+    }
+  } else if (first_queue.size() > second_queue.size()) { /// First > Second
+    while(!first_queue.empty()) {
+      if (second_queue.empty()) {
+        push(first_queue.front());
+        first_queue.pop();
+      } else {
+        push(first_queue.front());
+        first_queue.pop();
+        push(second_queue.front());
+        second_queue.pop();
+      }
+    }
+  } else if (second_queue.size() > first_queue.size()) { /// First < Second
+    while(!second_queue.empty()) {
+      if (first_queue.empty()) {
+        push(second_queue.front());
+        second_queue.pop();
+      } else {
+        push(first_queue.front());
+        first_queue.pop();
+        push(second_queue.front());
+        second_queue.pop();
+      }
+    }
+  }
+};
+
+/**
+ * @brief Implementacion del cuarto ejercicio, se encarga de eliminar los elementos duplicados de una cola
+ * para ello necesitamos del empleo de una estructura auxiliar que permita la comprobacion de elementos
+ * duplicados.
+ * 
+ * La estructura que vamos a hacer uso es un vector, ya que nos permite introducir aquellos elementos 
+ * para poder comprobar si estas duplicados.
+ * 
+ */
+
 
 
 #endif  // QUEUE_H_
