@@ -53,7 +53,7 @@ template <class T> class queue_l_t {
   // Exercice-3
   void merge_two_queues(queue_l_t<T> first_queue, queue_l_t<T> second_queue);
   // Exercice-4
-  void delete_duplicated_elements();
+  void delete_duplicated_elements(void);
 
   // E/S
   std::ostream& write(std::ostream& os = std::cout) const;
@@ -120,7 +120,7 @@ template<class T> std::ostream& operator<<(std::ostream& os,
  */
 template<class T>
 void queue_l_t<T>::inverse_queue_elements(void) {
-  vector<T> node_vector;
+  std::vector<T> node_vector;
   while (!empty()) {
     node_vector.push_back(front());
     pop();
@@ -153,7 +153,7 @@ void queue_l_t<T>::inverse_queue_elements(void) {
  * 
  */
 template<class T>
-pair<queue_l_t<T>, queue_l_t<T>> queue_l_t<T>::divide_into_two_queues(queue_l_t<T> pair_queue, queue_l_t<T> unpair_queue) {
+std::pair<queue_l_t<T>, queue_l_t<T>> queue_l_t<T>::divide_into_two_queues(queue_l_t<T> pair_queue, queue_l_t<T> unpair_queue) {
   int counter = 0;
   while (!empty()) {
     if ((counter % 2) == 0) {
@@ -165,7 +165,7 @@ pair<queue_l_t<T>, queue_l_t<T>> queue_l_t<T>::divide_into_two_queues(queue_l_t<
     }
     counter++;
   }
-  pair<queue_l_t<T>, queue_l_t<T>> final_result;
+  std::pair<queue_l_t<T>, queue_l_t<T>> final_result;
   final_result.first = pair_queue;
   final_result.second = unpair_queue;
   return final_result;
@@ -223,7 +223,32 @@ void queue_l_t<T>::merge_two_queues(queue_l_t<T> first_queue, queue_l_t<T> secon
  * para poder comprobar si estas duplicados.
  * 
  */
+template<class T>
+void queue_l_t<T>::delete_duplicated_elements(void) {
+  std::vector<T> auxiliary_vector;
+  /// Inicializamos el vector, con el primer elemento de la cola para que exista un posible elemento
+  /// dentro de esta
+  auxiliary_vector.push_back(front());
+  pop();
 
+  while(!empty()) {
+    bool delete_operation = false;
+    for (int i = 0; i < auxiliary_vector.size(); i++) {
+      if (auxiliary_vector[i] == front()) {
+        delete_operation = true;
+      }
+    }
+    if (delete_operation == false) {
+      auxiliary_vector.push_back(front());
+      pop();
+    } else 
+      pop(); // Eliminamos de la cola, ya que dicho elemento se encuentra dentro de la estrcutura auxiliar
+  }
+
+  for (int i = 0; i < auxiliary_vector.size(); i++) {
+    push(auxiliary_vector[i]);
+  }
+};
 
 
 #endif  // QUEUE_H_
