@@ -1,3 +1,5 @@
+/// IMPLEMENTACIÓN DE LOS DISTINTOS EJERCICIOS COMO MÉTODOS DE LA PROPIA CLASE LISTA SIMPLEMENTE ENLAZADA
+
 // AUTOR: Samuel Martín Morales
 // FECHA: 29/03/2023
 // EMAIL: alu0101359526@ull.edu.es
@@ -38,6 +40,9 @@ template <class T> class sll_t {
   sll_node_t<T>* erase_after(sll_node_t<T>*);
 
   sll_node_t<T>* search(const T&) const;
+
+  /// Implementación de los distintos ejercicios como métodos de la clase
+  void delete_last_element(void);
 
   // E/S
   std::ostream& write(std::ostream& = std::cout) const;
@@ -116,5 +121,49 @@ template <class T> std::ostream& sll_t<T>::write(std::ostream& os) const {
   }
   return os;
 }
+
+/// IMPLEMENTACIÓN DE LOS DISTINTOS EJERCICIOS
+// Exercice-1
+/**
+ * @brief Implementación de un método de la clase sll_t que permita eliminar y liberar
+ * el último elemento de una lista simplemente enlazada que haya sido creada.
+ * 
+ */
+template<class T> 
+void sll_t<T>::delete_last_element(void) {
+  /**
+   * @brief Para comenzar con la eliminación del último elemento de la lista, debemos de 
+   * saber cuantos elementos tiene dicha lista y una vez se tiene el numero de elementos
+   * que se encuentran dentro de la lista, se recorre el puntero que apunta desde el head hasta
+   * el final, permitiendo eliminar únicamente el último elemento cuando este recorra todos los
+   * elementos desde el principio hasta el final.
+   * 
+   */
+  sll_node_t<T>* auxiliary_head = head_;
+  int counter = 0;
+  while(auxiliary_head != NULL) {
+    counter++;
+    auxiliary_head = auxiliary_head->get_next();
+  }
+
+  /**
+   * @brief En este punto se apunta con el puntero hasta la penúltima posición de la lista, para poder
+   * eliminar dicho elemento.
+   * 
+   * Cabe destacar que hay que quitar dos, porque para poder obtener el último elemento de
+   * la lista, hay que tener en cuenta que el primer elemento, es decir, el head, ya se cuenta
+   * para la primera implementación, ya que no se recorre la lista desde la posición cero,
+   * sino desde la posición 1.
+   * 
+   */
+  auxiliary_head = head_;
+  for (int i = 0; i < counter - 2; i++) {
+    std::cout << i << std::endl;
+    auxiliary_head = auxiliary_head->get_next();
+  }
+
+  /// Ponemos el último nodo de la lista como nulo para eliminarlo y liberarlo.
+  erase_after(auxiliary_head);
+};
 
 #endif  // SLLT_H_
