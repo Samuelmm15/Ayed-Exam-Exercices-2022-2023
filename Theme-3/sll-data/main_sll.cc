@@ -72,9 +72,19 @@ int main(void)
   cout << endl;	
 
   /// Implementación del primer ejercicio solicitado
-  lista.delete_last_element();
-  lista.write();
-  cout << endl;
+  // lista.delete_last_element();
+  // lista.write();
+  // cout << endl;
+
+  /// Comprobación de Exercice-2
+  // lista.exchange_first_second_element();
+  // lista.write();
+  // cout << endl;
+
+  /// Comprobación de Exercice-3
+  // lista.duplicate_all_elements();
+  // lista.write();
+  // cout << endl;
 
   return 0;
 }

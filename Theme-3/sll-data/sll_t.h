@@ -42,7 +42,13 @@ template <class T> class sll_t {
   sll_node_t<T>* search(const T&) const;
 
   /// Implementación de los distintos ejercicios como métodos de la clase
+  /// Exercice-1
   void delete_last_element(void);
+  /// Exercice-2
+  void exchange_first_second_element(void);
+  /// Exercice-3
+  void duplicate_all_elements(void);
+
 
   // E/S
   std::ostream& write(std::ostream& = std::cout) const;
@@ -164,6 +170,49 @@ void sll_t<T>::delete_last_element(void) {
 
   /// Ponemos el último nodo de la lista como nulo para eliminarlo y liberarlo.
   erase_after(auxiliary_head);
+};
+
+/// Exercice-2
+/**
+ * @brief Implementación de un método de la clase que permita intercambiar el primer y el segundo
+ * elemento de la lista.
+*/
+template<class T>
+void sll_t<T>::exchange_first_second_element(void) {
+  /// Para comenzar obtenemos el primer y el segundo elemento de la lista simplemente enlazada.
+  sll_node_t<T>* first_element = head_;
+  sll_node_t<T>* second_element = head_->get_next();
+
+  /// Realizamos la eliminación de estos dos elementos para poder intercambiarlos al introducirlos de nuevo en la lista.
+  head_->set_next(NULL);
+  head_ = second_element->get_next(); /// Ponemos que la cabeza de la lista es el tercer elemento
+
+  /// Introducimos los elementos en la lista de manera inversa para que se hayan intercambiado por tanto
+  push_front(first_element);
+  push_front(second_element);
+};
+
+/// Exercice-3
+/**
+ * @brief Implementación de un método de la clase que permita duplicar todos los elementos
+ * de la lista e introducirlos a continuación de este elemento que ha sido tomado como original.
+*/
+template<class T>
+void sll_t<T>::duplicate_all_elements(void) {
+  /// Hacemos uso de un bucle que nos permita recorrer todos los elementos que se encuentran dentro
+  /// de la lista.
+  sll_node_t<T>* auxiliary = head_;
+  while (auxiliary != NULL) {
+    sll_node_t<T>* auxiliary_addition = auxiliary;
+    auxiliary_addition->set_next(auxiliary->get_next());
+    insert_after(auxiliary, auxiliary_addition);
+    // std::cout << auxiliary->get_data() << std::endl;
+    // std::cout << auxiliary->get_next()->get_data() << std::endl;
+    auxiliary = auxiliary->get_next();
+    auxiliary = auxiliary->get_next();
+    std::cout << auxiliary->get_data() << std::endl;
+
+  }
 };
 
 #endif  // SLLT_H_
