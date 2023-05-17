@@ -40,6 +40,10 @@ template <class T> class dll_t {
 
   dll_node_t<T>* erase(dll_node_t<T>*);
 
+  /// IMPLEMENTACIÓN DE LOS EJERCICIOS DEL TEMA QUE SON SOLICITADOS
+  /// Exercice-1
+  void insert_new_node(dll_node_t<T>*, int);
+
   // E/S
   std::ostream& write(std::ostream& = std::cout) const;
 
@@ -157,5 +161,27 @@ template <class T> std::ostream& dll_t<T>::write(std::ostream& os) const {
   }
   return os;
 }
+
+/// Exercice-1
+/**
+ * @brief Inserción de un nuevo nodo detrás de un nodo que es pasado como parámetro.
+ * 
+*/
+template<class T>
+void dll_t<T>::insert_new_node(dll_node_t<T>* new_node, int position) {
+  /// Primero recorremos la lista doblemente enlazada hasta encontrarnos en la posición la cual queremos
+  /// introducir el nuevo nodo.
+  dll_node_t<T>* auxiliary = head_;
+  for (int i = 0; i < get_size(); i++) {
+    if (i != position)
+      auxiliary = auxiliary->get_next();
+    else {
+      dll_node_t<T>* previous_node = auxiliary->get_next();
+      auxiliary->set_next(new_node);
+      auxiliary = auxiliary->get_next();
+      auxiliary->set_next(previous_node);
+    }
+  }
+};
 
 #endif  // DLLT_H_

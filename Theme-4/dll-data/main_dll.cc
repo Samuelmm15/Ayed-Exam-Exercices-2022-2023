@@ -84,6 +84,15 @@ int main(void) {
   cout << "Dato en la cola: " << dato << endl;
 
   // Impresión de la lista elemento a elemento
+  cout << endl;
+  cout << endl;
+  lista.write();
+  cout << endl;
+
+  /// COMPROBACIÓN DEL FUNCIONAMIENTO DE LOS DISTINTOS EJERCICIOS IMPLEMENTADOS
+  /// Exercice-1
+  dll_node_t<char>* new_node = new dll_node_t<char>('1111');
+  lista.insert_new_node(new_node, 4);
   lista.write();
   cout << endl;
 
