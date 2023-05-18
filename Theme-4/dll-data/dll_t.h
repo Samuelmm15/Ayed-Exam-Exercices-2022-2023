@@ -43,6 +43,14 @@ template <class T> class dll_t {
   /// IMPLEMENTACIÓN DE LOS EJERCICIOS DEL TEMA QUE SON SOLICITADOS
   /// Exercice-1
   void insert_new_node(dll_node_t<T>*, int);
+  /// Exercice-2
+  void exchange_elements(void);
+  /// Exercice-3
+  void duplicate_elements(void);
+  /// Exercice-4
+  void delete_impair_elements(void);
+  /// Exercice-5
+  dll_t<T> delete_pair_elements(dll_t<T>);
 
   // E/S
   std::ostream& write(std::ostream& = std::cout) const;
@@ -182,6 +190,111 @@ void dll_t<T>::insert_new_node(dll_node_t<T>* new_node, int position) {
       auxiliary->set_next(previous_node);
     }
   }
+};
+
+/// Exercice-2
+/**
+ * @brief Implementación de un método que permita intercambiar el último y el penúltimo elemento 
+ * de la lista doblemente enlazada.
+ * 
+*/
+template<class T>
+void dll_t<T>::exchange_elements(void) {
+  /**
+   * @brief Debido a que se tiene un puntero que apunta a la cola de la lista, vamos a hacer uso de
+   * dicho puntero para poder obtener el último y el penúltimo elemento de la lista para poder
+   * intercambiar ambos.
+   * 
+   */
+  dll_node_t<T>* last_element = tail_;
+  dll_node_t<T>* penultimate_element = tail_->get_prev();
+
+  /**
+   * @brief Una vez tenemos dichos elementos, los eliminamos de la cola original y los volvemos
+   * a introducir por el final de manera inversa.
+   * 
+   */
+  pop_back();
+  pop_back();
+  push_back(last_element);
+  push_back(penultimate_element);
+};
+
+/// Exercice-3
+/**
+ * Implementación de un método que permita duplciar todos los elementos de una lista insertandolos
+ * como una copia seguidas al final de la lista original.
+ * 
+*/
+template<class T>
+void dll_t<T>::duplicate_elements(void) {
+  /**
+   * @brief Para comenzar con la implementación, cada uno de los elementos que serán una copia
+   * serán obtenidos de la lista original y se irán introduciendo al final de la lista original.
+   * 
+   */
+  dll_node_t<T>* auxiliary = head_;
+  int original_size = get_size();
+  for (int i = 0; i < original_size; i++) {
+    dll_node_t<T>* node_to_insert = new dll_node_t<T>(auxiliary->get_data());
+    push_back(node_to_insert);
+    auxiliary = auxiliary->get_next();
+  }
+};
+
+/// Exercice-4
+/**
+ * @brief Implementar un método que permita eliminar y liberar los elementos de posiciones impares de
+ * la lista.
+ * 
+*/
+template<class T>
+void dll_t<T>::delete_impair_elements(void) {
+  /**
+   * @brief Para comenzar creamos un puntero auxiliar que apunte a la cabeza de la lista,
+   * de manera que nos permita ir recorriendo la lista y en aquellas posiciones impares, debemos
+   * de realizar la eliminación del nodo en el que nos encontramos.
+   * 
+   */
+  dll_node_t<T>* auxiliary = head_;
+  int counter = 0;
+  while (auxiliary != NULL) {
+    if ((counter % 2) != 0)
+      erase(auxiliary); /// Si el método erase estuviera bien implementado funcionaría de manera correcta.
+    auxiliary = auxiliary->get_next();
+    counter++;
+  }
+};
+
+/// Exercice-5
+/**
+ * @brief Implementación de un método que permita eliminar los elementos que se encuentran en
+ * las posiciones pares de una lista y trasladarlas a una lista nueva en el mismo orden en el que
+ * fueron eliminadas.
+ * 
+*/
+template<class T>
+dll_t<T> dll_t<T>::delete_pair_elements(dll_t<T> new_list) {
+  /**
+   * @brief Para poder recorrer todos los elementos de la lista, debemos de crear una variable auxiliar
+   * que permita recorrer todos los elementos de la lista, por otra parte aquellos elementos que se
+   * encuentran en las posiciones pares son introducidos en la lista que se le pasa como parámetro, y
+   * para eliminarlos de la lista original se hace uso del método ya implementado erase().
+   * 
+   */
+  dll_node_t<T>* auxiliary = head_;
+  int counter = 0;
+  while(auxiliary != NULL) {
+    if ((counter % 2) == 0) {
+      new_list.push_front(new dll_node_t<T>(auxiliary->get_data()));
+      // erase(auxiliary); Si el la operación funcionara de manera correcta se podrían eliminar los nodos que se pasan y que se continue de manera correcta.
+    }
+    auxiliary = auxiliary->get_next();
+    counter++;
+  }
+  new_list.write();
+  std::cout << std::endl;
+  return new_list;
 };
 
 #endif  // DLLT_H_

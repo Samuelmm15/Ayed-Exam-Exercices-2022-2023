@@ -88,13 +88,33 @@ int main(void) {
   cout << endl;
   lista.write();
   cout << endl;
+  cout << endl;
 
   /// COMPROBACIÓN DEL FUNCIONAMIENTO DE LOS DISTINTOS EJERCICIOS IMPLEMENTADOS
   /// Exercice-1
-  dll_node_t<char>* new_node = new dll_node_t<char>('1111');
-  lista.insert_new_node(new_node, 4);
-  lista.write();
-  cout << endl;
+  // dll_node_t<char>* new_node = new dll_node_t<char>('1111');
+  // lista.insert_new_node(new_node, 4);
+  // lista.write();
+  // cout << endl;
+
+  // /// Exercice-2
+  // lista.exchange_elements();
+  // lista.write();
+  // cout << endl;
+
+  // /// Exercice-3
+  // lista.duplicate_elements();
+  // lista.write();
+  // cout << endl;
+
+  /// Exercice-4
+  // lista.delete_impair_elements();
+  // lista.write();
+  // cout << endl;
+
+  /// Exercice-5
+  dll_t<char> new_list;
+  new_list = lista.delete_pair_elements(new_list);
 
   return 0;
 }
